@@ -5,7 +5,7 @@ module Pipejump
     class << self
       def collection_path(path = nil)
         @collection_path = path if path
-        @collection_path
+        @collection_path || "#{self.to_s.split('::').last.downcase}s"
       end
     end
     
