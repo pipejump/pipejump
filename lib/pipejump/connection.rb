@@ -9,11 +9,7 @@ module Pipejump
       @session = session
       @endpoint = endpoint
     end
-   
-    def request(method, url, data)
-      http.send(:method, url, data)
-    end
-    
+       
     def site
       parser = URI.const_defined?(:Parser) ? URI::Parser.new : URI
       parser.parse(self.endpoint)

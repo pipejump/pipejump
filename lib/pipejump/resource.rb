@@ -29,9 +29,7 @@ module Pipejump
     def method_missing(meth, *args)
       if meth.to_s[-1].chr == '=' and @attributes[meth.to_s[0..-2]]
         @attributes[meth.to_s[0..-2]] = args.first
-      elsif @attributes[meth.to_s]
-        @attributes[meth.to_s]
-      elsif @attributes[meth.to_s]
+      elsif @attributes.has_key?(meth.to_s)
         @attributes[meth.to_s]
       else
         super(meth, args)

@@ -1,6 +1,6 @@
 module Pipejump
   
-  class Handler
+  class Collection
     
     def initialize(session, resource_class)
       @session = session
@@ -25,6 +25,14 @@ module Pipejump
       resource = @resource_class.new(attrs.merge(:session =>@session))
       resource.save
       resource
+    end
+    
+    ['first', 'last'].each do |method|
+      class_eval <<-STR
+        def #{method}
+          all.#{method}
+        end
+      STR
     end
         
   end

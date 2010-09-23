@@ -5,6 +5,9 @@ module Pipejump
     attr_accessor :token
     
     def initialize(params, &block)
+      if endpoint = params.delete("endpoint") or endpoint = params.delete(:endpoint)
+        connection(endpoint)
+      end
       authorize(params)
       yield(self) if block_given?
     end
@@ -16,8 +19,8 @@ module Pipejump
       raise 'Authorization failed' if response.code == '401'
     end
     
-    def connection
-      @connection ||= Connection.new(self)
+    def connection(endpoint = nil)
+      @connection ||= Connection.new(self, endpoint)
     end
     
     def account
@@ -49,12 +52,21 @@ module Pipejump
     end
     
     def clients
-      Handler.new(self, Client)
+      Collection.new(self, Client)
     end
 
     def sources
-      Handler.new(self, Source)
+      Collection.new(self, Source)
     end
+
+    def contacts
+      Collection.new(self, Contact)
+    end
+
+    def deals
+      Collection.new(self, Deal)
+    end
+
     
   end
 end

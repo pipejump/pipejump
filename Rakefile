@@ -26,12 +26,19 @@ Rake::TestTask.new(:test) do |test|
 end
 
 begin
+
   require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
-    test.verbose = true
+  require 'spec/rake/spectask'
+  
+  desc "Run rcov for rspec"
+  Spec::Rake::SpecTask.new(:rcov) do |t|
+    # t.spec_opts = ['--options', "/spec/spec.opts"]
+    t.spec_files = FileList['spec/pipejump/*']
+    t.rcov = true
+    t.rcov_opts = %w{--html --rails --exclude osx\/objc,gems\/,spec\/,features\/test\/,stories\/ --aggregate coverage.data}
+    t.rcov_opts << %[-o "coverage"]
   end
+
 rescue LoadError
   task :rcov do
     abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"

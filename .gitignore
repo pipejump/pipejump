@@ -19,3 +19,7 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+spec/connection.yml
+coverage
+coverage.data
+test*.rb
