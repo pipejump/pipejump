@@ -2,10 +2,10 @@ require 'json'
 module Pipejump
 end
 
-require File.dirname(__FILE__) + '/pipejump/collection'
-require File.dirname(__FILE__) + '/pipejump/resource'
-require File.dirname(__FILE__) + '/pipejump/session'
-require File.dirname(__FILE__) + '/pipejump/connection'
+require File.dirname(__FILE__) + '/pipejump/base/collection'
+require File.dirname(__FILE__) + '/pipejump/base/resource'
+require File.dirname(__FILE__) + '/pipejump/base/session'
+require File.dirname(__FILE__) + '/pipejump/base/connection'
 
 require File.dirname(__FILE__) + '/pipejump/resources/account'
 require File.dirname(__FILE__) + '/pipejump/resources/deal'
