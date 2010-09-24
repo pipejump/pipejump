@@ -30,25 +30,25 @@ module Pipejump
     
     def get(url)
       response = connection.get(url)
-      data = JSON.parse(response.body)
-      [response.code, data]
+      data = (response.code.to_i == 200 and url.match('.json')) ? JSON.parse(response.body) : ''
+      [response.code.to_i, data]
     end
 
     def post(url, data)
       response = connection.post(url, data)
-      data = JSON.parse(response.body)
-      [response.code, data]
+      data = url.match('.json') ? JSON.parse(response.body) : response.body
+      [response.code.to_i, data]
     end
 
     def put(url, data)
       response = connection.put(url, data)
-      data = JSON.parse(response.body)
-      [response.code, data]
+      data = url.match('.json') ? JSON.parse(response.body) : response.body
+      [response.code.to_i, data]
     end
     
     def delete(url)
       response = connection.delete(url)
-      [response.code, response.body]
+      [response.code.to_i, response.body]
     end
     
     def clients

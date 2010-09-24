@@ -2,7 +2,7 @@ require 'spec/spec_helper'
 describe Pipejump::Source do
 
   before do 
-    @session = Pipejump::Session.new(AUTH.dup)
+    @session = PipejumpSpec.session
     @source1 = @session.sources.create(:name => 'Source1')
     @source1.id.should_not be_nil
     @source2 = @session.sources.create(:name => 'Source2')

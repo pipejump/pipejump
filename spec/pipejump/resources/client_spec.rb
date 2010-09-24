@@ -2,7 +2,7 @@ require 'spec/spec_helper'
 describe Pipejump::Client do
 
   before do 
-    @session = Pipejump::Session.new(AUTH.dup)
+    @session = PipejumpSpec.session
     @client1 = @session.clients.create(:name => 'Client1')
     @client1.id.should_not be_nil
     @client2 = @session.clients.create(:name => 'Client2')

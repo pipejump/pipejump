@@ -1,4 +1,5 @@
-require 'rubygems'
+require "rubygems"
+require "bundler/setup"
 require 'rake'
 
 begin
@@ -10,7 +11,7 @@ begin
     gem.email = "marcin@applicake.com"
     gem.homepage = "http://github.com/marcinbunsch/pipejump-client"
     gem.authors = ["Marcin Bunsch"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "bundler", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -18,24 +19,17 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
+require 'spec/rake/spectask'
 
 begin
-
   require 'rcov/rcovtask'
-  require 'spec/rake/spectask'
   
   desc "Run rcov for rspec"
   Spec::Rake::SpecTask.new(:rcov) do |t|
-    # t.spec_opts = ['--options', "/spec/spec.opts"]
-    t.spec_files = FileList['spec/pipejump/*']
+    t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/**/*_spec.rb']
+    t.spec_opts = %w{--color}
     t.rcov = true
-    t.rcov_opts = %w{--html --rails --exclude osx\/objc,gems\/,spec\/,features\/test\/,stories\/ --aggregate coverage.data}
+    t.rcov_opts = %w{--html --exclude osx\/objc,gems\/,spec\/}
     t.rcov_opts << %[-o "coverage"]
   end
 
@@ -45,9 +39,12 @@ rescue LoadError
   end
 end
 
-task :test => :check_dependencies
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/**/*_spec.rb']
+  t.spec_opts = %w{--color}
+end
 
-task :default => :test
+task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|

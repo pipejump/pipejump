@@ -1,6 +1,6 @@
 module Pipejump
   
-  class Account < Resource    
+  class Note < Resource    
   end
   
 end

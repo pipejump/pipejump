@@ -1,14 +1,16 @@
 require 'json'
-module Pipejump
-end
+module Pipejump; end
 
-require File.dirname(__FILE__) + '/pipejump/base/collection'
-require File.dirname(__FILE__) + '/pipejump/base/resource'
-require File.dirname(__FILE__) + '/pipejump/base/session'
-require File.dirname(__FILE__) + '/pipejump/base/connection'
+require 'pipejump/base/collection'
+require 'pipejump/base/resource'
+require 'pipejump/base/session'
+require 'pipejump/base/errors'
+require 'pipejump/base/connection'
 
-require File.dirname(__FILE__) + '/pipejump/resources/account'
-require File.dirname(__FILE__) + '/pipejump/resources/deal'
-require File.dirname(__FILE__) + '/pipejump/resources/source'
-require File.dirname(__FILE__) + '/pipejump/resources/client'
-require File.dirname(__FILE__) + '/pipejump/resources/contact'
+require 'pipejump/resources/account'
+require 'pipejump/resources/deal'
+require 'pipejump/resources/note'
+require 'pipejump/resources/reminder'
+require 'pipejump/resources/source'
+require 'pipejump/resources/client'
+require 'pipejump/resources/contact'
