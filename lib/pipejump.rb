@@ -1,4 +1,5 @@
 require 'json'
+require 'net/http'
 module Pipejump; end
 
 require 'pipejump/base/collection'
