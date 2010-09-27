@@ -1,13 +1,13 @@
 require 'uri'
 module Pipejump
   
-  class Connection
+  class Connection #:nodoc:
     
     attr_accessor :session, :endpoint
 
-    def initialize(session, endpoint = 'http://api.pipejump.local')
+    def initialize(session, endpoint = nil)
       @session = session
-      @endpoint = endpoint
+      @endpoint = endpoint || 'http://api.pipejump.com'
     end
        
     def site

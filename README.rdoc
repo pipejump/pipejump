@@ -14,4 +14,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 Marcin Bunsch. See LICENSE for details.
+Copyright (c) 2010 Pipejump. See LICENSE for details.

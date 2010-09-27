@@ -1,15 +1,68 @@
 module Pipejump
-  
+  #
+  # Represents a Resource available in the Pipejump API
+  # 
+  # The following Resources are available:
+  # * Account via @session.account
+  # * Client via @session.clients
+  # * Contact via @session.contacts
+  # * Deal via @session.deals
+  # * Note via @deal.notes
+  # * Reminder via @deal.reminders
+  # * Source via @deal.sources
+  # 
+  # === Retrieving Resources
+  # For information on retrieving resources, please consult the Collection class
+  #
+  # === Creating a Resource 
+  # To create a resource, call the create method on the appropriate collection.
+  # 
+  # For example, to create a client, you would do the following:
+  #   @client = @session.clients.create(:name => 'Google')
+  # This will return an instance of Pipejump::Client 
+  # 
+  # You can access the attributes of the instance via the attributes method:
+  #   @client.attributes # => { 'id' => 1, 'name' => 'Google' }
+  # 
+  # Pipejump::Resource also provides shortcut accessors for these attributes, similarly to ActiveRecord:
+  #   @client.name = 'Yahoo'
+  #   @client.name # => 'Yahoo'
+  # 
+  # If the create fails, errors are available via the errors method
+  #   @client = @session.clients.create(:name => '')
+  #   @client.errors # => {"client"=>[{"error"=>{"code"=>"E0001", "field"=>"name", "description"=>"Please enter a client name"}}]}
+  # 
+  # For more information on errors, please consult the Pipejump API documentation
+  #
+  # === Updating a Resource
+  # To update a resource, change the desired attributes and call the save method
+  #   @client.name = 'Yahoo'
+  #   @client.save
+  # 
+  # The save method returns the instance on successful save.
+  #
+  # If the update fails, save returns false and errors are available via the errors method
+  #   @client.name = ''
+  #   @client.save # => false
+  #   @client.errors # => {"client"=>[{"error"=>{"code"=>"E0001", "field"=>"name", "description"=>"Please enter a client name"}}]}
+  # 
+  # For more information on errors, please consult the Pipejump API documentation
+  # 
+  # === Removing a resource
+  # To remove a resource, call the destroy method on the Pipejump::Resource instance
+  #   @client.destroy # => true
+  #
   class Resource
        
     class << self
+      # Returns the pluralized name of the resource used for the collection
       def collection_path(path = nil)
         @collection_path = path if path
         @collection_path || "#{self.to_s.split('::').last.downcase}s"
       end
       
       # Naive implementation of belongs_to association
-      def belongs_to(klass)
+      def belongs_to(klass) #:nodoc:
         class_eval <<-STR
           def #{klass}
             if @attributes['#{klass}'].is_a?(Hash)
@@ -22,8 +75,8 @@ module Pipejump
       end
       
       # Naive implementation of has_many association
-      attr_accessor :has_many_blocks
-      def has_many(collection, &block)
+      attr_accessor :has_many_blocks #:nodoc:
+      def has_many(collection, &block) #:nodoc:
         (self.has_many_blocks ||= {})[collection] = block
         class_eval <<-STR
           def #{collection}
@@ -40,6 +93,7 @@ module Pipejump
     end
     
     attr_accessor :attributes
+    # Constructor for the Resource
     def initialize(attrs)
       @session = attrs.delete(:session)
       @prefix = attrs.delete(:prefix) || ''
@@ -51,13 +105,13 @@ module Pipejump
       @attributes['id']
     end
     
-    def load(attrs = {})
+    def load(attrs = {}) #:nodoc:
       attrs.each_pair do |key, value|
         @attributes[key.to_s] = value
       end      
     end
     
-    def method_missing(meth, *args)
+    def method_missing(meth, *args) #:nodoc:
       if meth.to_s[-1].chr == '=' and @attributes[meth.to_s[0..-2]]
         @attributes[meth.to_s[0..-2]] = args.first
       elsif @attributes.has_key?(meth.to_s)
@@ -67,7 +121,7 @@ module Pipejump
       end
     end
     
-    def klassname
+    def klassname #:nodoc:
       self.class.to_s.split('::').last.downcase
     end
     
@@ -96,19 +150,21 @@ module Pipejump
       @prefix + '/' + self.class.collection_path.to_s 
     end
     
-    def create
+    def create #:nodoc:
       @session.post(collection_path + '.json', to_query)      
     end
 
-    def update
+    def update #:nodoc:
       @session.put(element_path + '.json', to_query)      
     end
     
+    # Destroys the Resource
     def destroy
       code, data = @session.delete(element_path + '.json')
       code.to_i == 200
     end
     
+    # Returns a Hash of errors
     def errors
       @errors ||= {}
     end
