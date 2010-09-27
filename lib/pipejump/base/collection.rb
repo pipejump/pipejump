@@ -99,6 +99,11 @@ module Pipejump
       resource
     end
     
+    def inspect
+      "#<#{self.class} #{@resource_class}>"
+    end
+    
+    
     ['first', 'last', 'each', 'size', 'collect', 'reject'].each do |method|
       class_eval <<-STR
         def #{method}(*args, &block)
