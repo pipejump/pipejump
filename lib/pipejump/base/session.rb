@@ -1,32 +1,83 @@
 module Pipejump
   
-  # Represents an active Session with the Pipejump API
+  # The Pipejump::Session instance represents an active Session with the Pipejump API
   # 
-  # Any access to the Pipejump API requires authorization, which means you need to initialize a Pipejump::Session instance before calling any other methods
+  # Any access to the Pipejump API requires authorization, which means you need to initialize a 
+  # Pipejump::Session instance before calling any other methods
   # 
-  # ==== Authorization
+  # == Authorization
+  # 
   # To authorize, simply call Pipejump::Session.new with a argument hash with the following keys:
+  # 
   # * _email_ - your Pipejump user account email
   # * _password_ - your Pipejump user account password
   # * _endpoint_ - (optional) Default is http://api.pipejump.com, however you can override it (for example for development)
   # 
   # You can perform later actions either on a instance returned by the canstructor or within a supplied block
-  #   @session = Pipejump::Session.new(:email => EMAIL, :password => PASSWORD)
-  #   @session.account
-  # or 
-  #   Pipejump::Session.new(:email => EMAIL, :password => PASSWORD) do |session|
-  #     session.account
-  #   end
   # 
-  # ==== Account
+  # 
+  #     @session = Pipejump::Session.new(:email => EMAIL, :password => PASSWORD)
+  #     @session.account
+  # 
+  # 
+  # or 
+  # 
+  # 
+  #     Pipejump::Session.new(:email => EMAIL, :password => PASSWORD) do |session|
+  #       session.account
+  #     end
+  # 
+  # 
+  # == Account
+  # 
   # To access the Account instance, call the account method
   # 
-  # ==== Collections
-  # The Session instance provides access to the following Collections:
-  # * clients
-  # * contacts
-  # * deals
-  # * sources
+  # 
+  #      @session.account # => #<Pipejump::Account name: "myaccount", id: "1", currency_name: "$">
+  # 
+  # 
+  # == Deals
+  # 
+  # You can access your deals by calling 
+  # 
+  # 
+  #      @session.deals
+  # 
+  # 
+  # With Deals you get access to Notes, Reminders and Deal Contacts.
+  # 
+  # For more information, consult the Deals page.
+  # 
+  # == Clients
+  # 
+  # You can access your clients by calling 
+  # 
+  # 
+  #      @session.clients
+  # 
+  # 
+  # For more information, consult the Clients page.
+  # 
+  # == Contacts
+  # 
+  # You can access your contacts by calling 
+  # 
+  # 
+  #      @session.contacts
+  # 
+  # 
+  # For more information, consult the Contacts page.
+  # 
+  # == Sources
+  # 
+  # You can access your sources by calling 
+  # 
+  # 
+  #      @session.sources
+  # 
+  # 
+  # For more information, consult the Sources page.
+  # 
   class Session
     
     attr_accessor :token

@@ -1,6 +1,7 @@
 require 'json'
 require 'net/http'
-module Pipejump; end
+module Pipejump #:nodoc: 
+end
 
 require 'pipejump/base/collection'
 require 'pipejump/base/resource'
