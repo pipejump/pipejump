@@ -1,16 +1,113 @@
-= pipejump-client
+*pipejump* gem is a Ruby-based client for the API of the Pipejump sales app.
 
-Description goes here.
+== Requirements
 
-== Note on Patches/Pull Requests
+There are no dependencies required to use this code.
+
+== Installation
+
+The gem available via Rubygems. To install it, use the following command:
+
+
+     sudo gem install pipejump
+
+
+To get the latest version, clone the gem from github and run rake install:
+
+
+     git clone http://github.com/pipejump/pipejump
+     cd pipejump
+     rake install
+
+
+== Usage
+
+Before using this gem you must require it by calling:
+
  
+     require 'pipejump'
+
+
+=== Session
+
+To use the client, you must first authorize the client with the API by initializing an instance of the Pipejump::Session class. You will later use this instance for communication with the API.
+
+
+     @session = Pipejump::Session.new(:email => 'you@email.com', :password => 'your_password')
+
+
+If the credentials are incorrect, this will raise a Pipejump::AuthorizationFailed error.
+
+If authorization succeeds, this will return a new Pipejump::Session instance which you can use to communicate with the API.
+
+For more information on the Session, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Session
+
+To access any resources, you need a valid Session instance, referred to as @session in the following examples.
+
+=== Account
+
+You can access your account by calling 
+
+
+     @session.account
+
+
+For more information, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Account
+
+=== Deals
+
+You can access your deals by calling 
+
+
+     @session.deals
+
+
+With Deals you get access to Notes, Reminders and Deal Contacts.
+
+For more information, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Deals
+
+=== Clients
+
+You can access your clients by calling 
+
+
+     @session.clients
+
+
+For more information, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Clients
+
+=== Contacts
+
+You can access your contacts by calling 
+
+
+     @session.contacts
+
+
+For more information, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Contacts
+
+=== Sources
+
+You can access your sources by calling 
+
+
+     @session.sources
+
+
+For more information, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Sources
+
+== Contribution
+
+You're more than welcome to fork and improve this gem. Usual rules:
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
   future version unintentionally.
 * Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+  (if you want to have your own version, that is fine but
+  bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request.
 
 == Copyright
 
