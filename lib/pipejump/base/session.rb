@@ -43,7 +43,7 @@ module Pipejump
       response = connection.post('/authorization', params.collect { |pair| pair.join('=') }.join('&'))
       data = JSON.parse(response.body)
       self.token = data['authorization']['token']
-      raise 'Authorization failed' if response.code == '401'
+      raise AuthorizationFailed if response.code == '401'
     end
     
     def connection(endpoint = nil) #:nodoc:
@@ -71,6 +71,10 @@ module Pipejump
     def delete(url) #:nodoc:
       response = connection.delete(url)
       [response.code.to_i, response.body]
+    end
+    
+    def inspect
+      "#<#{self.class} token: \"#{token}\">"
     end
     
     # Returns a Pipejump::Account instance of the current account

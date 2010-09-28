@@ -44,7 +44,7 @@ module Pipejump
     # Create a new Collection of Resource objects
     # ==== Arguments
     # * _session_ - Session object
-    # * _resource_class_ - class of the Resource for this collection
+    # * _resource_ - class of the Resource for this collection
     # * _owner_ - a Resource object which owns the collection, applies scope to calls
     # ==== Usage
     # Normally you do not call the constructor directly, instead you go via the Session or Deal instance, like this:
@@ -52,20 +52,21 @@ module Pipejump
     # or
     #   @deal.notes
     # 
-    def initialize(session, resource_class, owner = nil)
+    def initialize(session, resource, owner = nil)
       @session = session
-      @resource_class = resource_class
+      @resource = resource
+      @owner = owner
       @prefix = owner ? owner.element_path : ''
     end
     
     # Returns a path to the collection of Resource objects
     def collection_path
-      @prefix + '/' + @resource_class.collection_path.to_s 
+      @prefix + '/' + @resource.collection_path.to_s 
     end
 
     # Returns a path to a single Resource
     def element_path(id)
-      @prefix + '/' + @resource_class.collection_path.to_s + '/' + id.to_s 
+      @prefix + '/' + @resource.collection_path.to_s + '/' + id.to_s 
     end
     
     # Returns a single Resource object, based on its _id_
@@ -74,8 +75,8 @@ module Pipejump
     def find(id)
       code, data = @session.get(element_path(id) + '.json')
       if code == 200
-        key = @resource_class.name.to_s.split('::').last.downcase
-        @resource_class.new(data[key].merge(:session =>@session))
+        key = @resource.name.to_s.split('::').last.downcase
+        @resource.new(data[key].merge(:session =>@session))
       elsif code == 404
         raise ResourceNotFound
       end
@@ -85,8 +86,8 @@ module Pipejump
     def all
       code, data = @session.get(collection_path + '.json')
       data.collect { |data|
-        key = @resource_class.name.to_s.split('::').last.downcase
-        @resource_class.new(data[key].merge(:session => @session, :prefix => @prefix))
+        key = @resource.name.to_s.split('::').last.downcase
+        @resource.new(data[key].merge(:session => @session, :prefix => @prefix))
       }
     end
     
@@ -94,13 +95,17 @@ module Pipejump
     # ==== Arguments
     # * _attrs_ - a Hash of attributes passed to the constructor of the Resource
     def create(attrs)
-      resource = @resource_class.new(attrs.merge(:session => @session, :prefix => @prefix))
+      resource = @resource.new(attrs.merge(:session => @session, :prefix => @prefix))
       resource.save
       resource
     end
     
     def inspect
-      "#<#{self.class} #{@resource_class}>"
+      if @owner
+        "#<#{self.class} resource: #{@resource}, owner: #{@owner.inspect}>"
+      else
+        "#<#{self.class} resource: #{@resource}>"
+      end
     end
     
     

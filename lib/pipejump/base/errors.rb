@@ -1,5 +1,8 @@
 module Pipejump  
-  # Error thrown when a resource is not found via find
+  # Error raised when authorization fails
+  class AuthorizationFailed < Exception; end
+  
+  # Error raised when a resource is not found via find
   class ResourceNotFound < Exception; end
   # Error raised when a method is called but is not available for that object
   #

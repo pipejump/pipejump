@@ -39,6 +39,11 @@ module Pipejump
       Net::HTTP.new(site.host, site.port)
     end
     
+    def inspect
+      "#<#{self.class} endpoint: \"#{endpoint}\">"
+    end
+    
+    
   end
 
 end

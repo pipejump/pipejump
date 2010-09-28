@@ -143,7 +143,7 @@ module Pipejump
     end
     
     def inspect
-      "#<#{self.class} #{@attributes.collect { |pair| pair[1] = "\"#{pair[1]}\""; pair.join(': ') }.join(' ')}>"
+      "#<#{self.class} #{@attributes.collect { |pair| pair[1] = "\"#{pair[1]}\""; pair.join(': ') }.join(', ')}>"
     end
     
     def element_path
