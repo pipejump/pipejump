@@ -68,7 +68,7 @@ module Pipejump
             if @attributes['#{klass}'].is_a?(Hash)
               Pipejump::#{klass.to_s.capitalize}.new(@attributes['#{klass}'].merge(:session => @session))
             elsif @attributes['#{klass}_id']
-              @session.#{klass}s.find(@attributes[:#{klass}_id])
+              @session.#{klass}s.find(@attributes['#{klass}_id'])
             end
           end
         STR
@@ -171,6 +171,10 @@ module Pipejump
     # Returns a Hash of errors
     def errors
       @errors ||= {}
+    end
+    
+    def created?
+      !!id
     end
     
   end

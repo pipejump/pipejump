@@ -3,7 +3,7 @@ module Pipejump
   # Represents an active Session with the Pipejump API
   # 
   # Any access to the Pipejump API requires authorization, which means you need to initialize a Pipejump::Session instance before calling any other methods
-  #
+  # 
   # ==== Authorization
   # To authorize, simply call Pipejump::Session.new with a argument hash with the following keys:
   # * _email_ - your Pipejump user account email
@@ -20,7 +20,7 @@ module Pipejump
   # 
   # ==== Account
   # To access the Account instance, call the account method
-  #
+  # 
   # ==== Collections
   # The Session instance provides access to the following Collections:
   # * clients

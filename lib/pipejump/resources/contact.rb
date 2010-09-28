@@ -4,6 +4,7 @@ module Pipejump
   #
   # Please consult Pipejump::Resource for more information on how resources work  
   class Contact < Resource
+    belongs_to :client
   end
   
 end
