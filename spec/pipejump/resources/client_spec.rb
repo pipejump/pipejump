@@ -87,5 +87,33 @@ describe Pipejump::Client do
     end
     
   end
+  
+  describe '#contacts' do
+    
+    before do
+      @contact1 = @session.contacts.create(:name => 'contact1', :client_id => @client1.id)
+      @contact2 = @session.contacts.create(:name => 'contact2', :client_id => @client1.id)
+    end
+    
+    describe '#all' do
+      
+      it "should return contacts of a client" do
+        contacts = @client1.contacts
+        contacts.size.should == 2
+        contacts.collect(&:name).should == ['contact1', 'contact2']
+      end
+
+    end
+
+    describe '#find' do
+      
+      it "should return a single contact of a client" do
+        contact = @client1.contacts.find(@contact1.id)
+        contact.name == 'contact1'
+      end
+    
+    end
+    
+  end
 
 end

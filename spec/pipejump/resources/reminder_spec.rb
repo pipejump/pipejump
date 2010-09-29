@@ -78,8 +78,6 @@ describe Pipejump::Reminder do
       
     end
     
-    
-    
   end
   
   describe '#update' do

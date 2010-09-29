@@ -155,7 +155,7 @@ module Pipejump
   # 
   class Client < Resource 
     has_many :contacts do
-      disable :find, :create
+      disable :create
     end
   end
   
