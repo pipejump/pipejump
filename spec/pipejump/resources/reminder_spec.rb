@@ -48,16 +48,37 @@ describe Pipejump::Reminder do
   
   describe '#create' do
     
-    it "should create reminder with valid params" do
-      @reminder = @deal.reminders.create(@valid)
-      @reminder.attributes.keys.sort.should == ["content", "date", "done", "id", "time"]
-      @reminder.destroy
+    describe 'with remind' do
+      
+      it "should create reminder with valid params" do
+        @reminder = @deal.reminders.create(@valid)
+        @reminder.attributes.keys.sort.should == ["content", "date", "done", "id", "remind", "time"] 
+        @reminder.destroy
+      end
+
+      it "should not create reminder with invalid params" do
+        @reminder = @deal.reminders.create(:content => '')
+        @reminder.errors['reminder'].collect{ |e| e['error']['field'] }.sort.should == ["content", "date", "time"]
+      end
+      
+    end
+
+    describe 'without remind' do
+      
+      it "should create reminder with valid params" do
+        @reminder = @deal.reminders.create(:content => 'Foo', :remind => false)
+        @reminder.attributes.keys.sort.should == ["content", "date", "done", "id", "remind", "time"] 
+        @reminder.destroy
+      end
+
+      it "should not create reminder with invalid params" do
+        @reminder = @deal.reminders.create(:content => '', :remind => false)
+        @reminder.errors['reminder'].collect{ |e| e['error']['field'] }.sort.should == ["content"]
+      end
+      
     end
     
-    it "should not create reminder with invalid params" do
-      @reminder = @deal.reminders.create(:content => '')
-      @reminder.errors['reminder'].collect{ |e| e['error']['field'] }.sort.should == ["content", "date", "time"]
-    end
+    
     
   end
   
