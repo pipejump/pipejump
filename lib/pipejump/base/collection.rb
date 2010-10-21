@@ -101,13 +101,8 @@ module Pipejump
     end
     
     def inspect
-      if @owner
-        "#<#{self.class} resource: #{@resource}, owner: #{@owner.inspect}>"
-      else
-        "#<#{self.class} resource: #{@resource}>"
-      end
+      all.inspect
     end
-    
     
     ['first', 'last', 'each', 'size', 'collect', 'reject'].each do |method|
       class_eval <<-STR
