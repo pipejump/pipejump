@@ -86,7 +86,12 @@ module Pipejump
       if endpoint = params.delete("endpoint") or endpoint = params.delete(:endpoint)
         connection(endpoint)
       end
-      authorize(params)
+      # If user supplies token, do not connect for authorization
+      if token = params.delete('token') or token = params.delete(:token)
+        self.token = token
+      else
+        authorize(params)
+      end
       yield(self) if block_given?
     end
     
