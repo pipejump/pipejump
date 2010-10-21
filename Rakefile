@@ -6,9 +6,9 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "pipejump-client"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "marcin@applicake.com"
+    gem.summary = %Q{Pipejump API Ruby client}
+    gem.description = %Q{Pipejump API Ruby client}
+    gem.email = "marcin@pipejump.com"
     gem.homepage = "http://github.com/marcinbunsch/pipejump-client"
     gem.authors = ["Marcin Bunsch"]
     gem.add_development_dependency "bundler", ">= 0"
