@@ -40,6 +40,12 @@ If the credentials are incorrect, this will raise a Pipejump::AuthorizationFaile
 
 If authorization succeeds, this will return a new Pipejump::Session instance which you can use to communicate with the API.
 
+As of version 0.1.1 you can use the token which is fetched when authorizing using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
+
+  @session = Pipejump::Session.new(:token => 'your_token')
+
+Also, as of version 0.1.1 connection is performed over SSL.
+
 For more information on the Session, consult the wiki page at http://github.com/pipejump/pipejump/wiki/Session
 
 To access any resources, you need a valid Session instance, referred to as @session in the following examples.

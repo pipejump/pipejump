@@ -26,6 +26,14 @@ module Pipejump
   #     Pipejump::Session.new(:email => EMAIL, :password => PASSWORD) do |session|
   #       session.account
   #     end
+  #
+  # As of version 0.1.1 you can use the token which is fetched when authorizing using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
+  # 
+  #   @session = Pipejump::Session.new(:token => 'your_token')
+  # 
+  # Also, as of version 0.1.1 connection is performed over SSL.
+  # 
+  # 
   # 
   # 
   # == Account
