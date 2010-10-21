@@ -7,7 +7,7 @@ module Pipejump
 
     def initialize(session, endpoint = nil)
       @session = session
-      @endpoint = endpoint || 'http://api.pipejump.com'
+      @endpoint = endpoint || 'https://api.pipejump.com'
     end
        
     def site
@@ -36,7 +36,10 @@ module Pipejump
     end
     
     def http
-      Net::HTTP.new(site.host, site.port)
+      instance ||= Net::HTTP.new(site.host, site.port)
+      instance.use_ssl = true
+      instance.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      instance
     end
     
     def inspect
