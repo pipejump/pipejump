@@ -37,8 +37,10 @@ module Pipejump
     
     def http
       instance ||= Net::HTTP.new(site.host, site.port)
-      instance.use_ssl = true
-      instance.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      if @endpoint.match(/^https:/)
+        instance.use_ssl = true
+        instance.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
       instance
     end
     
