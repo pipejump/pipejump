@@ -5,11 +5,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "pipejump-client"
+    gem.name = "pipejump"
     gem.summary = %Q{Pipejump API Ruby client}
     gem.description = %Q{Pipejump API Ruby client}
     gem.email = "marcin@pipejump.com"
-    gem.homepage = "http://github.com/marcinbunsch/pipejump-client"
+    gem.homepage = "http://github.com/pipejump/pipejump"
     gem.authors = ["Marcin Bunsch"]
     gem.add_development_dependency "bundler", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
@@ -26,7 +26,7 @@ begin
   
   desc "Run rcov for rspec"
   Spec::Rake::SpecTask.new(:rcov) do |t|
-    t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/**/*_spec.rb']
+    t.spec_files = FileList['spec/pipejump/**/*_spec.rb']
     t.spec_opts = %w{--color}
     t.rcov = true
     t.rcov_opts = %w{--html --exclude osx\/objc,gems\/,spec\/}
