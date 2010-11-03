@@ -12,7 +12,7 @@ describe Pipejump::Session do
   it "should raise an error on wrong credentials" do
     lambda {
       @session = Pipejump::Session.new(AUTH.merge({'password' => 'NOT_CORRECT_PASSWORD_123qwe'}).dup)
-    }.should raise_error(Pipejump::AuthorizationFailed)
+    }.should raise_error(Pipejump::AuthenticationFailed)
   end
   
   it "should return account data on /account" do

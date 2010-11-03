@@ -2,12 +2,12 @@ module Pipejump
   
   # The Pipejump::Session instance represents an active Session with the Pipejump API
   # 
-  # Any access to the Pipejump API requires authorization, which means you need to initialize a 
+  # Any access to the Pipejump API requires authentication, which means you need to initialize a 
   # Pipejump::Session instance before calling any other methods
   # 
-  # == Authorization
+  # == Authentication
   # 
-  # To authorize, simply call Pipejump::Session.new with a argument hash with the following keys:
+  # To authenticate, simply call Pipejump::Session.new with a argument hash with the following keys:
   # 
   # * _email_ - your Pipejump user account email
   # * _password_ - your Pipejump user account password
@@ -27,7 +27,7 @@ module Pipejump
   #       session.account
   #     end
   #
-  # As of version 0.1.1 you can use the token which is fetched when authorizing using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
+  # As of version 0.1.1 you can use the token which is fetched when authenticating using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
   # 
   #   @session = Pipejump::Session.new(:token => 'your_token')
   # 
@@ -94,20 +94,20 @@ module Pipejump
       if endpoint = params.delete("endpoint") or endpoint = params.delete(:endpoint)
         connection(endpoint)
       end
-      # If user supplies token, do not connect for authorization
+      # If user supplies token, do not connect for authentication
       if token = params.delete('token') or token = params.delete(:token)
         self.token = token
       else
-        authorize(params)
+        authenticate(params)
       end
       yield(self) if block_given?
     end
     
-    def authorize(params) #:nodoc:
-      response = connection.post('/authorization', params.collect { |pair| pair.join('=') }.join('&'))
+    def authenticate(params) #:nodoc:
+      response = connection.post('/authentication', params.collect { |pair| pair.join('=') }.join('&'))
       data = JSON.parse(response.body)
-      self.token = data['authorization']['token']
-      raise AuthorizationFailed if response.code == '401'
+      self.token = data['authentication']['token']
+      raise AuthenticationFailed if response.code == '401'
     end
     
     def connection(endpoint = nil) #:nodoc:

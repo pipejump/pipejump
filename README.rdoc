@@ -30,17 +30,17 @@ Before using this gem you must require it by calling:
 
 === Session
 
-To use the client, you must first authorize the client with the API by initializing an instance of the Pipejump::Session class. You will later use this instance for communication with the API.
+To use the client, you must first authenticate the client with the API by initializing an instance of the Pipejump::Session class. You will later use this instance for communication with the API.
 
 
      @session = Pipejump::Session.new(:email => 'you@email.com', :password => 'your_password')
 
 
-If the credentials are incorrect, this will raise a Pipejump::AuthorizationFailed error.
+If the credentials are incorrect, this will raise a Pipejump::AuthenticationFailed error.
 
-If authorization succeeds, this will return a new Pipejump::Session instance which you can use to communicate with the API.
+If authentication succeeds, this will return a new Pipejump::Session instance which you can use to communicate with the API.
 
-As of version 0.1.1 you can use the token which is fetched when authorizing using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
+As of version 0.1.1 you can use the token which is fetched when authenticating using the email and password. So once you get the token, you can use it for future initialization of the Session and not send the username and password, which is a more secure.
 
   @session = Pipejump::Session.new(:token => 'your_token')
 

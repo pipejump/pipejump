@@ -1,6 +1,6 @@
 module Pipejump  
-  # Error raised when authorization fails
-  class AuthorizationFailed < Exception; end
+  # Error raised when authentication fails
+  class AuthenticationFailed < Exception; end
   
   # Error raised when a resource is not found via find
   class ResourceNotFound < Exception; end
