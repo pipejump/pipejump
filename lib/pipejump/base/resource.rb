@@ -112,7 +112,7 @@ module Pipejump
     end
     
     def method_missing(meth, *args) #:nodoc:
-      if meth.to_s[-1].chr == '=' and @attributes[meth.to_s[0..-2]]
+      if meth.to_s[-1].chr == '=' and @attributes.has_key?(meth.to_s[0..-2])
         @attributes[meth.to_s[0..-2]] = args.first
       elsif @attributes.has_key?(meth.to_s)
         @attributes[meth.to_s]
@@ -166,6 +166,13 @@ module Pipejump
     def destroy
       code, data = @session.delete(element_path + '.json')
       code.to_i == 200
+    end
+    
+    # Reloads the resource data from the API
+    def reload
+      code, data = @session.get(element_path + '.json')
+      load(data[klassname])
+      self
     end
     
     # Returns a Hash of errors
