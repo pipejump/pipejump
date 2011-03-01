@@ -10,3 +10,7 @@ class PipejumpSpec
   end
 end
 PipejumpSpec.session = Pipejump::Session.new(AUTH.dup)
+
+def uuid
+  Time.now.to_i.to_s + 'x' + rand(100000000).to_s + 'X' + rand(100000000).to_s
+end

@@ -3,9 +3,9 @@ describe Pipejump::Client do
 
   before do 
     @session = PipejumpSpec.session
-    @client1 = @session.clients.create(:name => 'Client1')
+    @client1 = @session.clients.create(:name => 'Client1' + uuid)
     @client1.id.should_not be_nil
-    @client2 = @session.clients.create(:name => 'Client2')
+    @client2 = @session.clients.create(:name => 'Client2' + uuid)
     @client2.id.should_not be_nil
   end
   
@@ -17,15 +17,16 @@ describe Pipejump::Client do
   describe '@session.clients' do
     
     it ".all should return all clients" do
-      @session.clients.all.collect(&:name).should == [@client1, @client2].collect(&:name) 
+      @session.clients.all.collect(&:name).include?(@client1.name).should == true
+      @session.clients.all.collect(&:name).include?(@client2.name).should == true
     end
 
     it ".first should return first client" do
-      @session.clients.first.name.should == @client1.name
+      @session.clients.first.class.should == Pipejump::Client
     end
 
     it ".last should return last client" do
-      @session.clients.last.name.should == @client2.name
+      @session.clients.last.class.should == Pipejump::Client
     end
     
     it ".find should find exact client" do
@@ -41,9 +42,10 @@ describe Pipejump::Client do
       @client1.attributes.keys.each do |attribute|
         @client1.send(attribute).should == @client1.attributes[attribute]
       end
-      @client1.name = 'Different name'
-      @client1.name.should == 'Different name'
-      @client1.attributes['name'].should == 'Different name'
+      name = 'Different name' + uuid
+      @client1.name = name
+      @client1.name.should == name
+      @client1.attributes['name'].should == name
     end
     
     it "should raise a NoMethodError when no accessor is set" do
@@ -57,10 +59,11 @@ describe Pipejump::Client do
   describe '#create' do
     
     it "should create record" do
-      @client3 = @session.clients.create(:name => 'Client3')
+      name = "Client #{uuid}"
+      @client3 = @session.clients.create(:name => name)
       @client3.id.should_not be_nil
-      @client3.name.should == 'Client3'
-      @session.clients.find(@client3.id).name.should == 'Client3'
+      @client3.name.should == name
+      @session.clients.find(@client3.id).name.should == name
       @client3.destroy
     end
     
@@ -75,9 +78,10 @@ describe Pipejump::Client do
   describe '#update' do
     
     it "should update record" do
-      @client1.name = 'Different name'
+      name = "Different Client #{uuid}"
+      @client1.name = name
       @client1.save.should == true
-      @session.clients.find(@client1.id).name.should == 'Different name'
+      @session.clients.find(@client1.id).name.should == name
     end
     
     it "should return error on validation fail" do
@@ -91,8 +95,10 @@ describe Pipejump::Client do
   describe '#contacts' do
     
     before do
-      @contact1 = @session.contacts.create(:name => 'contact1', :client_id => @client1.id)
-      @contact2 = @session.contacts.create(:name => 'contact2', :client_id => @client1.id)
+      @name1 = "Contact #{uuid}"
+      @name2 = "Contact #{uuid}"
+      @contact1 = @session.contacts.create(:name => @name1, :client_id => @client1.id)
+      @contact2 = @session.contacts.create(:name => @name2, :client_id => @client1.id)
     end
     
     describe '#all' do
@@ -100,7 +106,7 @@ describe Pipejump::Client do
       it "should return contacts of a client" do
         contacts = @client1.contacts
         contacts.size.should == 2
-        contacts.collect(&:name).should == ['contact1', 'contact2']
+        contacts.collect(&:name).sort.should == [@name1, @name2].sort
       end
 
     end
@@ -109,7 +115,7 @@ describe Pipejump::Client do
       
       it "should return a single contact of a client" do
         contact = @client1.contacts.find(@contact1.id)
-        contact.name == 'contact1'
+        contact.name == @name1
       end
     
     end

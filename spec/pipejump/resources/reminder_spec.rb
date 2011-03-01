@@ -3,8 +3,8 @@ describe Pipejump::Reminder do
   
   before do 
     @session = PipejumpSpec.session
-    @client = @session.clients.create(:name => 'Client1')
-    @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
+    @client = @session.clients.create(:name => 'Client1' + uuid)
+    @deal = @session.deals.create(:name => 'New deal'  + uuid, :client_id => @client.id)
     @valid = { :content => 'Some reminder', :time => '13:00', :date => Time.now + 7 * 60 * 60 * 24 }
   end
 
@@ -52,7 +52,7 @@ describe Pipejump::Reminder do
       
       it "should create reminder with valid params" do
         @reminder = @deal.reminders.create(@valid)
-        @reminder.attributes.keys.sort.should == ["content", "date", "done", "id", "remind", "time"] 
+        @reminder.attributes.keys.sort.should == ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"]
         @reminder.destroy
       end
 
@@ -67,7 +67,7 @@ describe Pipejump::Reminder do
       
       it "should create reminder with valid params" do
         @reminder = @deal.reminders.create(:content => 'Foo', :remind => false)
-        @reminder.attributes.keys.sort.should == ["content", "date", "done", "id", "remind", "time"] 
+        @reminder.attributes.keys.sort.should == ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"]
         @reminder.destroy
       end
 

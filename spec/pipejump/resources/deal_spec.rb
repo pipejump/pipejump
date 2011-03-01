@@ -3,7 +3,8 @@ describe Pipejump::Deal do
 
   before do 
     @session = PipejumpSpec.session
-    @client = @session.clients.create(:name => 'Client1')
+    @client = @session.clients.create(:name => 'Client2' + uuid)    
+    @client.id.should_not be_nil
   end
   
   after do
@@ -13,8 +14,9 @@ describe Pipejump::Deal do
   describe '#create' do
     
     it "should create deal with valid params" do
-      @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
-      @deal.attributes.keys.sort.should == ["client", "client_id", "deal_tags", "hot", "id", "name", "scope", "stage_name"] 
+      @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
+      @deal.id.should_not be_nil
+      @deal.attributes.keys.sort.should == ["client", "client_id", "deal_tags", "hot", "id", "last_stage_change_at", "name", "scope", "stage_name"]
       (@deal.attributes.keys - ['client']).each do |attribute|
         @deal.send(attribute).should == @deal.attributes[attribute]
       end
@@ -33,7 +35,7 @@ describe Pipejump::Deal do
   describe '.find' do
 
     it "should find deal" do
-      @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
+      @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
       @found = @session.deals.find(@deal.id)
       @found.name == @deal.name
       @deal.destroy
@@ -49,7 +51,7 @@ describe Pipejump::Deal do
   describe '#update' do
    
     before do
-      @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
+      @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
     end
     
     after do 
@@ -75,9 +77,9 @@ describe Pipejump::Deal do
   describe '#contacts' do
     
     before do 
-      @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
-      @contact = @session.contacts.create(:name => 'Tom', :client_id => @client.id)
-      @contact2 = @session.contacts.create(:name => 'Mike', :client_id => @client.id)
+      @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
+      @contact = @session.contacts.create(:name => 'Tom' + uuid, :client_id => @client.id)
+      @contact2 = @session.contacts.create(:name => 'Mike' + uuid, :client_id => @client.id)
       @deal.contacts.update(@contact.id).should == true
     end
     

@@ -3,8 +3,8 @@ describe Pipejump::Note do
   
   before do 
     @session = PipejumpSpec.session
-    @client = @session.clients.create(:name => 'Client1')
-    @deal = @session.deals.create(:name => 'New deal', :client_id => @client.id)
+    @client = @session.clients.create(:name => 'Client1' + uuid)
+    @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
   end
 
   after do
@@ -48,7 +48,7 @@ describe Pipejump::Note do
     
     it "should create note with valid params" do
       @note = @deal.notes.create(:content => 'Some note')
-      @note.attributes.keys.sort.should == ["content", "id", "username"]
+      @note.attributes.keys.sort.should == ["content", "created_at", "id", "updated_at", "username"] 
       @note.destroy
     end
     

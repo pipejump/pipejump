@@ -39,7 +39,7 @@ describe Pipejump::Contact do
   describe '#method_missing' do
     
     it "should correctly get and set attributes" do 
-      @contact1.attributes.keys.sort.should == ["client_id", "email", "id", "mobile", "name", "phone"] 
+      @contact1.attributes.keys.sort.should == ["client_id", "email", "id", "mobile", "name", "phone", 'private'] 
       @contact1.attributes.keys.each do |attribute|
         @contact1.send(attribute).should == @contact1.attributes[attribute]
       end
