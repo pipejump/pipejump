@@ -58,15 +58,15 @@ module Pipejump
       @owner = owner
       @prefix = owner ? owner.element_path : ''
     end
-    
+        
     # Returns a path to the collection of Resource objects
     def collection_path
-      @prefix + '/' + @resource.collection_path.to_s 
+      @prefix + '/' + @resource.collection_path.to_s
     end
 
     # Returns a path to a single Resource
     def element_path(id)
-      @prefix + '/' + @resource.collection_path.to_s + '/' + id.to_s 
+      @prefix + '/' + @resource.collection_path.to_s + '/' + id.to_s
     end
     
     # Returns a single Resource object, based on its _id_

@@ -151,7 +151,7 @@ module Pipejump
     end
     
     def collection_path
-      @prefix + '/' + self.class.collection_path.to_s 
+      @prefix + '/' + self.class.collection_path.to_s
     end
     
     def create #:nodoc:

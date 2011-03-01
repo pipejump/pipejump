@@ -16,19 +16,19 @@ module Pipejump
     end
     
     def post(path, data)
-      http.post(path, data, headers)
+      http.post(session.version_prefix(path), data, headers)
     end
 
     def put(path, data)
-      http.put(path, data, headers)
+      http.put(session.version_prefix(path), data, headers)
     end
 
     def get(path)
-      http.get(path, headers)
+      http.get(session.version_prefix(path), headers)
     end
 
     def delete(path)
-      http.delete(path, headers)
+      http.delete(session.version_prefix(path), headers)
     end
     
     def headers

@@ -88,11 +88,15 @@ module Pipejump
   # 
   class Session
     
-    attr_accessor :token
-    
+    attr_accessor :token, :version
+        
     def initialize(params, &block) 
       if endpoint = params.delete("endpoint") or endpoint = params.delete(:endpoint)
         connection(endpoint)
+      end
+
+      if version = params.delete('version') or version = params.delete(:version)
+        self.version = "v#{version}"
       end
       # If user supplies token, do not connect for authentication
       if token = params.delete('token') or token = params.delete(:token)
@@ -103,8 +107,16 @@ module Pipejump
       yield(self) if block_given?
     end
     
+    def version_prefix(url)
+      if self.version and !url.match(/^\/#{self.version}/)
+        "/#{self.version}#{url}"
+      else
+        url
+      end
+    end
+    
     def authenticate(params) #:nodoc:
-      response = connection.post('/authentication', params.collect { |pair| pair.join('=') }.join('&'))
+      response = connection.post(version_prefix('/authentication'), params.collect { |pair| pair.join('=') }.join('&'))
       data = JSON.parse(response.body)
       self.token = data['authentication']['token']
       raise AuthenticationFailed if response.code == '401'
@@ -143,7 +155,7 @@ module Pipejump
     
     # Returns a Pipejump::Account instance of the current account
     def account
-      code, response = get('/account.json')
+      code, response = get(version_prefix('/account.json'))
       Account.new(response['account'])
     end
     
