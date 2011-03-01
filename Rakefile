@@ -26,7 +26,7 @@ begin
   
   desc "Run rcov for rspec"
   Spec::Rake::SpecTask.new(:rcov) do |t|
-    t.spec_files = FileList['spec/pipejump/**/*_spec.rb']
+    t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/resources/*_spec.rb']
     t.spec_opts = %w{--color}
     t.rcov = true
     t.rcov_opts = %w{--html --exclude osx\/objc,gems\/,spec\/}
@@ -40,7 +40,7 @@ rescue LoadError
 end
 
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/**/*_spec.rb']
+  t.spec_files = FileList['spec/pipejump/*_spec.rb', 'spec/pipejump/resources/*_spec.rb']
   t.spec_opts = %w{--color}
 end
 

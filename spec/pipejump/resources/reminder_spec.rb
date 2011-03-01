@@ -25,7 +25,7 @@ describe Pipejump::Reminder do
     it "should fetch reminders within a deal" do
       @deal.reminders.size.should == 1
       @deal.reminders.first.content.should == 'Some reminder'
-      @deal.reminders.first.time.should == '13:00'
+      @deal.reminders.first.time.to_i.should == 13
     end
 
   end
@@ -52,13 +52,19 @@ describe Pipejump::Reminder do
       
       it "should create reminder with valid params" do
         @reminder = @deal.reminders.create(@valid)
-        @reminder.attributes.keys.sort.should == ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"]
+         
+        ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"].each do |key|
+          @reminder.attributes.keys.should include(key)
+        end      
+         
         @reminder.destroy
       end
 
       it "should not create reminder with invalid params" do
-        @reminder = @deal.reminders.create(:content => '')
-        @reminder.errors['reminder'].collect{ |e| e['error']['field'] }.sort.should == ["content", "date", "time"]
+        @reminder = @deal.reminders.create(:content => '', :remind => true)
+        fields = @reminder.errors['reminder'].collect{ |e| e['error']['field'] }.sort
+        fields.should include('content')
+        fields.should include('time')
       end
       
     end
@@ -67,7 +73,9 @@ describe Pipejump::Reminder do
       
       it "should create reminder with valid params" do
         @reminder = @deal.reminders.create(:content => 'Foo', :remind => false)
-        @reminder.attributes.keys.sort.should == ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"]
+        ["content", "created_at", "date", "done", "id", "remind", "time", "updated_at"].each do |key|
+          @reminder.attributes.keys.should include(key)
+        end      
         @reminder.destroy
       end
 

@@ -48,7 +48,9 @@ describe Pipejump::Note do
     
     it "should create note with valid params" do
       @note = @deal.notes.create(:content => 'Some note')
-      @note.attributes.keys.sort.should == ["content", "created_at", "id", "updated_at", "username"] 
+      ["content", "created_at", "id", "updated_at", "username"].each do |key|
+        @note.attributes.keys.should include(key)
+      end      
       @note.destroy
     end
     

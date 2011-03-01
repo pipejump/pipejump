@@ -38,7 +38,8 @@ describe Pipejump::Client do
   describe '#method_missing' do
     
     it "should correctly get and set attributes" do 
-      @client1.attributes.keys.sort.should == ['id', 'name']
+      @client1.attributes.keys.include?('id').should == true
+      @client1.attributes.keys.include?('name').should == true
       @client1.attributes.keys.each do |attribute|
         @client1.send(attribute).should == @client1.attributes[attribute]
       end

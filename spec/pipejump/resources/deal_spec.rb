@@ -16,7 +16,10 @@ describe Pipejump::Deal do
     it "should create deal with valid params" do
       @deal = @session.deals.create(:name => 'New deal' + uuid, :client_id => @client.id)
       @deal.id.should_not be_nil
-      @deal.attributes.keys.sort.should == ["client", "client_id", "deal_tags", "hot", "id", "last_stage_change_at", "name", "scope", "stage_name"]
+      ["client", "client_id", "deal_tags", "hot", "id", "last_stage_change_at", "name", "scope", "stage_name"].each do |key|
+        @deal.attributes.keys.should include(key)
+      end
+      
       (@deal.attributes.keys - ['client']).each do |attribute|
         @deal.send(attribute).should == @deal.attributes[attribute]
       end
@@ -27,7 +30,7 @@ describe Pipejump::Deal do
     it "should return errors with invalid params" do
       @deal = @session.deals.create({})
       @deal.id.should == nil
-      @deal.errors['deal'].collect{ |e| e['error']['field'] }.sort.should == ['client', 'name']
+      @deal.errors['deal'].collect{ |e| e['error']['field'] }.sort.should == ['entity', 'name']
     end
     
   end

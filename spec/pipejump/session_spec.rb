@@ -18,7 +18,9 @@ describe Pipejump::Session do
   it "should return account data on /account" do
     account = @session.account
     account.class.should == Pipejump::Account
-    account.attributes.keys.sort.should == ["currency_name", "id", "name"]
+    ["currency_name", "id", "name"].each do |key|
+      account.attributes.keys.should include(key)
+    end
   end
   
   it "#connection should return a connection" do
