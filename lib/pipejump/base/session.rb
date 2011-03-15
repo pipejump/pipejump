@@ -116,7 +116,7 @@ module Pipejump
     end
     
     def authenticate(params) #:nodoc:
-      response = connection.post(version_prefix('/authentication'), params.collect { |pair| pair.join('=') }.join('&'))
+      response = connection.post(version_prefix('/authentication.json'), params.collect { |pair| pair.join('=') }.join('&'))
       data = JSON.parse(response.body)
       self.token = data['authentication']['token']
       raise AuthenticationFailed if response.code == '401'
