@@ -1,7 +1,7 @@
 module Pipejump
-  
+
   # Represents a collection Resources available in the Pipejump API
-  # 
+  #
   # ==== Available Collections:
   # * Clients
   #     @session.clients
@@ -29,7 +29,7 @@ module Pipejump
   #   @session.sources.size
   #   @session.sources.each { |source| }
   class Collection
-    
+
     class << self
       # Disable methods specified as arguments
       def disable(*methods) #:nodoc:
@@ -51,14 +51,14 @@ module Pipejump
     #   @session.clients
     # or
     #   @deal.notes
-    # 
+    #
     def initialize(session, resource, owner = nil)
       @session = session
       @resource = resource
       @owner = owner
       @prefix = owner ? owner.element_path : ''
     end
-        
+
     # Returns a path to the collection of Resource objects
     def collection_path
       @prefix + '/' + @resource.collection_path.to_s
@@ -68,10 +68,10 @@ module Pipejump
     def element_path(id)
       @prefix + '/' + @resource.collection_path.to_s + '/' + id.to_s
     end
-    
+
     # Returns a single Resource object, based on its _id_
     # ==== Arguments
-    # * _id_ - id of Resource 
+    # * _id_ - id of Resource
     def find(id)
       code, data = @session.get(element_path(id) + '.json')
       if code == 200
@@ -81,7 +81,7 @@ module Pipejump
         raise ResourceNotFound
       end
     end
-    
+
     # Returns an Array of Resource objects
     def all
       code, data = @session.get(collection_path + '.json')
@@ -90,7 +90,7 @@ module Pipejump
         @resource.new(data[key].merge(:session => @session, :prefix => @prefix))
       }
     end
-    
+
     # Creates and returns a Resource object
     # ==== Arguments
     # * _attrs_ - a Hash of attributes passed to the constructor of the Resource
@@ -99,11 +99,11 @@ module Pipejump
       resource.save
       resource
     end
-    
+
     def inspect
       all.inspect
     end
-    
+
     ['first', 'last', 'each', 'size', 'collect', 'reject'].each do |method|
       class_eval <<-STR
         def #{method}(*args, &block)
@@ -111,7 +111,7 @@ module Pipejump
         end
       STR
     end
-        
+
   end
-  
+
 end

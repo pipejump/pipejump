@@ -1,20 +1,20 @@
 require 'uri'
 module Pipejump
-  
+
   class Connection #:nodoc:
-    
+
     attr_accessor :session, :endpoint
 
     def initialize(session, endpoint = nil)
       @session = session
-      @endpoint = endpoint || 'https://api.pipejump.com'
+      @endpoint = endpoint || 'https://sales.futuresimple.com'
     end
-       
+
     def site
       parser = URI.const_defined?(:Parser) ? URI::Parser.new : URI
       parser.parse(self.endpoint)
     end
-    
+
     def post(path, data)
       http.post(session.version_prefix(path), data, headers)
     end
@@ -30,11 +30,11 @@ module Pipejump
     def delete(path)
       http.delete(session.version_prefix(path), headers)
     end
-    
+
     def headers
       { 'X-Pipejump-Auth' => session.token.to_s }
     end
-    
+
     def http
       instance ||= Net::HTTP.new(site.host, site.port)
       if @endpoint.match(/^https:/)
@@ -43,12 +43,12 @@ module Pipejump
       end
       instance
     end
-    
+
     def inspect
       "#<#{self.class} endpoint: \"#{endpoint}\">"
     end
-    
-    
+
+
   end
 
 end

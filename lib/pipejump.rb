@@ -1,7 +1,7 @@
 require 'json'
 require 'net/http'
 require 'net/https'
-module Pipejump #:nodoc: 
+module Pipejump #:nodoc:
 end
 
 require 'pipejump/base/collection'
@@ -15,5 +15,4 @@ require 'pipejump/resources/deal'
 require 'pipejump/resources/note'
 require 'pipejump/resources/reminder'
 require 'pipejump/resources/source'
-require 'pipejump/resources/client'
 require 'pipejump/resources/contact'
