@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.email       = %q{marcin@futuresimple.com}
   s.homepage    = "http://pipejump.com/api"
   s.description = %q{Pipejump API Ruby client}
+  s.summary     = %q{Pipejump API Ruby client}
 
   s.rubyforge_project = "pipejump"
 
