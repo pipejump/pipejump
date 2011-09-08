@@ -97,6 +97,8 @@ module Pipejump
 
       if version = params.delete('version') or version = params.delete(:version)
         self.version = "v#{version}"
+      else
+        self.version = "v1"
       end
       # If user supplies token, do not connect for authentication
       if token = params.delete('token') or token = params.delete(:token)
