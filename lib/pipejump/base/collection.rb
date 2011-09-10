@@ -104,7 +104,7 @@ module Pipejump
       all.inspect
     end
 
-    ['first', 'last', 'each', 'size', 'collect', 'reject'].each do |method|
+    ['first', 'last', 'each', 'size', 'collect', 'reject', 'inject'].each do |method|
       class_eval <<-STR
         def #{method}(*args, &block)
           all.#{method}(*args, &block)
