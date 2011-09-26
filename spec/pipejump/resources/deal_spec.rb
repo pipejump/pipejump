@@ -12,6 +12,22 @@ describe Pipejump::Deal do
     @client.destroy
   end
 
+  describe '#all' do
+    it "should filter deals by stage" do
+      deal = @session.deals.create(:name => 'New deal' + uuid, :entity_id => @client.id, :stage_name => "won")
+      deals = @session.deals.all(:stage => "won")
+      deals.size.should == 1
+      deals[0].id.should == deal.id
+    end
+
+    it "by default fetches incoming deals" do
+      deal = @session.deals.create(:name => 'New deal 2' + uuid, :entity_id => @client.id, :stage_name => "incoming")
+      deals = @session.deals.all
+      deals.size.should == 1
+      deals[0].id.should == deal.id
+    end
+  end
+
   describe '#create' do
 
     it "should create deal with valid params" do
