@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Pipejump
 
   # Represents a collection Resources available in the Pipejump API
@@ -83,8 +85,10 @@ module Pipejump
     end
 
     # Returns an Array of Resource objects
-    def all
-      code, data = @session.get(collection_path + '.json')
+    def all(params = {})
+      query = params.map { |key, value| "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}" }.join("&")
+      query = "?" + query unless query.empty?
+      code, data = @session.get(collection_path + '.json' + query)
       data.collect { |data|
         key = @resource.name.to_s.split('::').last.downcase
         @resource.new(data[key].merge(:session => @session, :prefix => @prefix))
