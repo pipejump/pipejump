@@ -222,6 +222,7 @@ module Pipejump
     belongs_to :organisation, :class_name => 'Contact'
 
     has_many :notes
+    has_many :contacts
     has_many :reminders
 
     def before_save
