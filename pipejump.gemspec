@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "pipejump"
   s.version     = Pipejump::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Marcin Bunsch"]
+  s.authors     = ["Marcin Bunsch", "Michal Bugno", "Antek Piechnik"]
   s.email       = %q{marcin@futuresimple.com}
-  s.homepage    = "http://pipejump.com/api"
-  s.description = %q{Pipejump API Ruby client}
-  s.summary     = %q{Pipejump API Ruby client}
+  s.homepage    = "http://futuresimple.com/api"
+  s.description = %q{Base API Ruby client}
+  s.summary     = %q{Base API Ruby client}
 
   s.rubyforge_project = "pipejump"
 

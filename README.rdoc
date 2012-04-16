@@ -1,4 +1,4 @@
-*pipejump* gem is a Ruby-based client for the API of the Pipejump sales app.
+*pipejump* gem is a Ruby-based client for the API of the Base CRM ( http://www.futuresimple.com/base )
 
 == Requirements
 
@@ -117,4 +117,4 @@ You're more than welcome to fork and improve this gem. Usual rules:
 
 == Copyright
 
-Copyright (c) 2010 Pipejump. See LICENSE for details.
+Copyright (c) 2010-2012 Future Simple. See LICENSE for details.
