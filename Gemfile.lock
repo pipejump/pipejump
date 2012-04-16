@@ -17,7 +17,7 @@ GEM
     rspec-mocks (2.6.0)
     vcr (1.11.2)
     webmock (1.7.5)
-      addressable (> 2.2.5, ~> 2.2)
+      addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
 
 PLATFORMS

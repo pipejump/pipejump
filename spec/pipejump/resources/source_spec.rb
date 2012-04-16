@@ -40,7 +40,7 @@ describe Pipejump::Source do
   describe '#method_missing' do
 
     it "should correctly get and set attributes" do
-      @source1.attributes.keys.sort.should == ['id', 'name']
+      @source1.attributes.keys.sort.should == ["created_at", "id", "name", "updated_at"]
       @source1.attributes.keys.each do |attribute|
         @source1.send(attribute).should == @source1.attributes[attribute]
       end
