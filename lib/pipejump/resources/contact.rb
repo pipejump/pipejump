@@ -227,8 +227,23 @@ module Pipejump
 
     def before_save
       @attributes.delete('organisation')
+      @attributes.delete('organisation_name')
       @attributes.delete('linkedin_display')
       @attributes.delete('tags_joined_by_comma')
+    end
+
+    def to_query
+      Pipejump::Util.to_query(:contact => @attributes)
+    end
+
+    def load(attrs = {}) #:nodoc:
+      super
+      fields = @attributes['custom_fields'] || {}
+      @attributes['custom_fields'] = fields.inject({}) do |memo, field|
+        memo[field.first] = field.last['value']
+        memo
+      end
+      @attributes
     end
 
   end

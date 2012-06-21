@@ -9,6 +9,7 @@ require 'pipejump/base/resource'
 require 'pipejump/base/session'
 require 'pipejump/base/errors'
 require 'pipejump/base/connection'
+require 'pipejump/base/util'
 
 require 'pipejump/resources/account'
 require 'pipejump/resources/deal'
