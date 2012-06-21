@@ -17,6 +17,7 @@ describe Pipejump::Contact do
     @contact2.destroy
   end
 
+
   describe '@session.contacts' do
 
     it ".all should return all contacts" do
@@ -96,19 +97,6 @@ describe Pipejump::Contact do
       @contact1.errors.should_not == {}
     end
 
-  end
-
-  describe "#custom_fields" do
-
-    it "returns a hash of custom fields" do
-      @contact1.name = 'AAA TESTING ONE'
-      @contact1.custom_fields['test_field'] = 'yaaay'
-      @contact1.save
-
-      puts @contact1.inspect
-
-      @session.contacts.find(@contact1.id).custom_fields['test_field']['value'].should =='yaaay'
-    end
   end
 
 end

@@ -93,7 +93,7 @@ module Pipejump
 
     end
 
-    attr_accessor :attributes
+    attr_accessor :attributes, :errors
     # Constructor for the Resource
     def initialize(attrs)
       @session = attrs.delete(:session)
@@ -132,7 +132,7 @@ module Pipejump
 
     def save
       before_save if respond_to?(:before_save)
-      @errors = {}
+      return false unless valid?
       code, data = id ? update : create # @session.post('/' + self.class.collection_path.to_s + '.json', to_query)
       if data['errors']
         @errors = data['errors']
@@ -141,6 +141,16 @@ module Pipejump
         load(data[klassname])
         true
       end
+    end
+
+    def validate
+      true
+    end
+
+    def valid?
+      @errors = {}
+      validate
+      @errors.none?
     end
 
     def inspect

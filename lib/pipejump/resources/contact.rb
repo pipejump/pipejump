@@ -246,6 +246,13 @@ module Pipejump
       @attributes
     end
 
+    def validate
+      if @attributes['name'].to_s.empty? and
+         @attributes['last_name'].to_s.empty?
+        @errors['name'] = "is missing"
+      end
+    end
+
   end
 
 end
