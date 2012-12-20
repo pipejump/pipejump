@@ -40,14 +40,13 @@ describe Pipejump::Deal do
       (@deal.attributes.keys - ['entity']).each do |attribute|
         @deal.send(attribute).should == @deal.attributes[attribute]
       end
-      @deal.entity.class.should == Pipejump::Contact
       @deal.destroy
     end
 
     it "should return errors with invalid params" do
       @deal = @session.deals.create({})
       @deal.id.should == nil
-      @deal.errors['deal'].collect{ |e| e['error']['field'] }.sort.should == ['entity', 'name']
+      @deal.errors['deal'].collect{ |e| e['error']['field'] }.sort.should == ['entity_id', 'name']
     end
 
   end
@@ -83,6 +82,7 @@ describe Pipejump::Deal do
       @deal.save
       @deal.save.should == true
       @found = @session.deals.find(@deal.id)
+      p @found
       @found.name.should == 'Updated deal'
     end
 
