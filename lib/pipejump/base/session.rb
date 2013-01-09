@@ -129,9 +129,56 @@ module Pipejump
     end
 
     def get(url) #:nodoc:
-      response = connection.get(url)
-      data = (response.code.to_i == 200 and url.match('.json')) ? JSON.parse(response.body) : ''
-      [response.code.to_i, data]
+      result = []
+      code = 0
+      page = 1
+      url = paginate(url, 1)
+      while (response = get_data(get_response(url)))[1] != []
+        data = response[1]
+
+        # If this is a single item, or this isn't a duplicate, continue.
+        if !data.is_a?(Array) 
+          result = data 
+          break
+        end
+
+        break if result == data
+
+        # Concatenate our result and data
+        result += data
+        page = page + 1
+
+        url = paginate(url, page)
+
+      end
+      code = response[0]
+      [code, result]
+    end
+
+    def paginate(url, num) #:nodoc:
+      # Convenience
+      num = num.to_s
+
+      # If the URL is a single object, don't paginate
+      return url if url.match("\w.json")
+
+      # If the URL has already been paginated.
+      return url.gsub(/(page=)(\d+)/, "page=#{num}") if url.match("page=")
+
+      # If the URL contains a ?
+      return url.gsub(/$/, "&page=#{num}") if url.match(/\?.*$/)
+
+      # If the URL hasn't been paginated, and has no ?
+      url.gsub(/$/, "?page=#{num}")
+    end
+
+    def get_response(url)
+      connection.get(url)
+    end
+
+    def get_data(response)
+      code = response.code.to_i
+      (code == 200) ? [200, JSON.parse(response.body)] : [code,'']
     end
 
     def post(url, data) #:nodoc:

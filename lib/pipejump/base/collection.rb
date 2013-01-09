@@ -27,6 +27,8 @@ module Pipejump
   # * size
   # * collect
   # * reject
+  # * inject
+  # * map
   # ===== Example:
   #   @session.sources.size
   #   @session.sources.each { |source| }
@@ -108,7 +110,7 @@ module Pipejump
       all.inspect
     end
 
-    ['first', 'last', 'each', 'size', 'collect', 'reject', 'inject'].each do |method|
+    ['first', 'last', 'each', 'size', 'collect', 'reject', 'inject', 'map'].each do |method|
       class_eval <<-STR
         def #{method}(*args, &block)
           all.#{method}(*args, &block)
