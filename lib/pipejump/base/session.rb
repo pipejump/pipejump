@@ -136,17 +136,10 @@ module Pipejump
       while (response = get_data(get_response(url)))[1] != []
         data = response[1]
 
-        # If this is a single item:
-        if !data.is_a?(Array)
-          result = data
-          break
-        end
+        # If this is a single item, or this isn't a duplicate, continue.
+        result = data; break unless data.is_a?(Array) || result != data
 
-        # If this item isn't paginated:
-        if result == data
-          break
-        end
-
+        # Concatenate our result and data
         result += data
         page = page + 1
 
@@ -157,27 +150,21 @@ module Pipejump
       [code, result]
     end
 
-    def paginate(url, num)
+    def paginate(url, num) #:nodoc:
       # Convenience
       num = num.to_s
 
       # If the URL is a single object, don't paginate
-      if url.match("\w.json")
-        return url
-      end
+      return url if url.match("\w.json")
 
       # If the URL has already been paginated.
-      if url.match("page=")
-        return url.gsub(/(page=)(\d+)/, "page=#{num}")
+      return url.gsub(/(page=)(\d+)/, "page=#{num}") if url.match("page=")
 
       # If the URL contains a ?
-      elsif url.match(/\?.*$/)
-        return url.gsub(/$/, "&page=#{num}") 
+      return url.gsub(/$/, "&page=#{num}") if url.match(/\?.*$/)
 
       # If the URL hasn't been paginated, and has no ?
-      else
-        return url.gsub(/$/, "?page=#{num}")
-      end
+      url.gsub(/$/, "?page=#{num}")
     end
 
     def get_response(url)
