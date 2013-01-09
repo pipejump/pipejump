@@ -137,7 +137,12 @@ module Pipejump
         data = response[1]
 
         # If this is a single item, or this isn't a duplicate, continue.
-        result = data; break unless data.is_a?(Array) || result != data
+        if !data.is_a?(Array) 
+          result = data 
+          break
+        end
+
+        break if result == data
 
         # Concatenate our result and data
         result += data
