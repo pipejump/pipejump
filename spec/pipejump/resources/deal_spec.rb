@@ -82,7 +82,6 @@ describe Pipejump::Deal do
       @deal.save
       @deal.save.should == true
       @found = @session.deals.find(@deal.id)
-      p @found
       @found.name.should == 'Updated deal'
     end
 
