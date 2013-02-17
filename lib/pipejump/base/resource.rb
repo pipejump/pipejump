@@ -122,6 +122,16 @@ module Pipejump
       end
     end
 
+    def respond_to_missing?(meth, include_private = false)
+      if meth.to_s[-1].chr == '=' and @attributes.has_key?(meth.to_s[0..-2])
+        true
+      elsif @attributes.has_key?(meth.to_s)
+        true
+      else
+        super
+      end
+    end
+
     def klassname #:nodoc:
       self.class.to_s.split('::').last.downcase
     end

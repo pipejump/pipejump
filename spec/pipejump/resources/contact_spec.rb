@@ -44,6 +44,7 @@ describe Pipejump::Contact do
     it "should correctly get and set attributes" do
       ["contact_id", "email", "id", "mobile", "name", "phone", 'private'].each do |key|
         @contact1.attributes.keys.include?(key).should == true
+        @contact1.should respond_to(key.to_sym)
       end
       (@contact1.attributes.keys - ['organisation']).each do |attribute|
         @contact1.send(attribute).should == @contact1.attributes[attribute]
