@@ -32,7 +32,15 @@ module Pipejump
     end
 
     def headers
-      { 'X-Pipejump-Auth' => session.token.to_s }
+      { auth_header => session.token.to_s }
+    end
+
+    def auth_header
+      if endpoint =~ /leads.futuresimple.com/
+        'X-Futuresimple-Token'
+      else
+        'X-Pipejump-Auth'
+      end
     end
 
     def http
