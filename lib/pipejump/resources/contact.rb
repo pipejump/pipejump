@@ -229,7 +229,12 @@ module Pipejump
       @attributes.delete('organisation')
       @attributes.delete('organisation_name')
       @attributes.delete('linkedin_display')
+      @attributes['tag_list'] = @attributes['tags_joined_by_comma']
       @attributes.delete('tags_joined_by_comma')
+    end
+
+    def after_save
+      @attributes.delete('tag_list')
     end
 
     def to_query

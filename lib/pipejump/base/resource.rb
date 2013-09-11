@@ -144,6 +144,7 @@ module Pipejump
       before_save if respond_to?(:before_save)
       return false unless valid?
       code, data = id ? update : create # @session.post('/' + self.class.collection_path.to_s + '.json', to_query)
+      after_save if respond_to?(:after_save)
       if data['errors']
         @errors = data['errors']
         false
